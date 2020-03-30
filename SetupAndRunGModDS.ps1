@@ -10,12 +10,13 @@ param(
   [string]$installLocation = "C:\sourceServer"
 )
 
+$serverName = $serverName.trim()
+$serverName = $serverName.replace(' ', '_')
 $steamexe = "$installLocation\steamcmd.exe"
 $gmodDir = "$installLocation\steamapps\common\GarrysModDS"
 $gmod = "$gmodDir\srcds.exe"
 #raw server.cfg
 $serverConfig = '// Hostname for server.
-hostname "Tucker_Smells"
 // RCON - remote console password.
 rcon_password "mutmatt_r0x!"
 
@@ -145,13 +146,13 @@ echo "resource.AddWorkshop("2040200286")" | Out-File $gmodDir\garrysmod\lua\auto
 
 $args = "-console -authkey B69B3D3AAC2A179EA41E576C476BF8C4 $workshopGameArg -game garrysmod $gamenameArg $networkArg +exec server.cfg +map $map"
 Start-Process -NoNewWindow -FilePath $gmod -ArgumentList $args
-echo "----------------------srcds.exe commands (the other window)------------------------------------------------------"
+echo "----------------------srcds.exe commands (the other window)---------------------------------------------------------"
 echo "| changelevel *map_name*                       | changes the map                                                   |"
 echo "| status                                       | gives information about the running server (including ip address) |"
 echo "| quit                                         | exits (shut down the server)                                      |"
-echo "----------------------in game dev console commands (~)-----------------------------------------------------------"
+echo "----------------------in game dev console commands (~)--------------------------------------------------------------"
 echo "| rcon_password tH3_pw                         | drop into 'admin' mode                                            |"
 echo "| rcon changelevel *map_name* (ph, tt, etc)    | changes the level of the server                                   |"
 echo "| rcon gamemode *mode* (terrortown, prop_hunt) | changes the level of the server                                   |"
-echo "| also helpful link for commands https://steamcommunity.com/sharedfiles/filedetails/?id=170589737               |"
-echo "-----------------------------------------------------------------------------------------------------------------"
+echo "| also helpful link for commands https://steamcommunity.com/sharedfiles/filedetails/?id=170589737                  |"
+echo "--------------------------------------------------------------------------------------------------------------------"
