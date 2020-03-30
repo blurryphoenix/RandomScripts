@@ -5,7 +5,7 @@ param(
   [Parameter()]
   [string]$serverName = "Tucker_Smells",
   [Parameter()]
-  [string]$localNetworkCardIp
+  [string]$map
 )
 
 $srcdsdir = "C:\sourceServer"
@@ -48,11 +48,8 @@ sv_mincmdrate 33
 // Server Settings
 sv_airaccelerate 100
 sv_gravity 600
-sv_allow_wait_command 0
 sv_allow_voice_from_file 0
 sv_turbophysics 0
-sv_max_usercmd_future_ticks 12
-gmod_physiterations 4
 sv_client_min_interp_ratio 1
 sv_client_max_interp_ratio 2
 think_limit 20
@@ -61,7 +58,7 @@ sv_noclipspeed 5
 sv_noclipaccelerate 5
 sv_lan 0
 sv_alltalk 1
-sv_contact youremail@changeme.com
+sv_contact server_admin@matterickson.me
 sv_cheats 0
 sv_allowcslua 0
 sv_pausable 0
@@ -69,7 +66,6 @@ sv_filterban 1
 sv_forcepreload 1
 sv_footsteps 1
 sv_voiceenable 1
-sv_voicecodec vaudio_speex
 sv_timeout 120
 sv_deltaprint 0
 sv_allowupload 0
@@ -140,7 +136,17 @@ if (!(Test-Path $srcdsdir)) {
 $args = "+login anonymous +app_update 4020 validate +quit"
 Start-Process -NoNewWindow -Wait -FilePath $steamexe -ArgumentList $args 
 
-$map = Get-ChildItem $gmodDir\garrysmod\maps -Filter *.bsp -Recurse | Get-Random
+if (!$map) {
+  $map = Get-ChildItem $gmodDir\garrysmod\maps -Filter *.bsp -Recurse | Get-Random
+}
 $serverConfig | Out-File $gmodDir\garrysmod\cfg\server.cfg -Encoding "ASCII"
-$args = "-console $workshopGameArg -game garrysmod $gamenameArg $networkArg +exec server.cfg +map $map"
-Start-Process -NoNewWindow -Wait -FilePath $gmod -ArgumentList $args
+echo "resource.AddWorkshop("2040200286")" | Out-File $gmodDir\garrysmod\lua\autorun\server\workshop.lua -Encoding "ASCII"
+
+# +sv_setsteamaccount B69B3D3AAC2A179EA41E576C476BF8C4
+$args = "-console -authkey B69B3D3AAC2A179EA41E576C476BF8C4 $workshopGameArg -game garrysmod $gamenameArg $networkArg +exec server.cfg +map $map +sv_setsteamaccount B69B3D3AAC2A179EA41E576C476BF8C4"
+Start-Process -NoNewWindow -FilePath $gmod -ArgumentList $args
+echo "------------------------------------------------------------------------------------------------"
+echo "| changelevel *map_name* | changes the map                                                   |"
+echo "| status                 | gives information about the running server (including ip address) |"
+echo "| quit                   | exits (shut down the server)                                      |"
+echo "------------------------------------------------------------------------------------------------"
