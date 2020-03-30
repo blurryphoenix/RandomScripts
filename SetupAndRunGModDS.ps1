@@ -120,16 +120,6 @@ $gamenameArg = if (!$game) { "+gamemode sandbox" } else { "+gamemode $game" }
 $networkArg = if (!$localNetworkCardIp) { "" } else { "-ip $localNetworkCardIp" }
 $workshopGameArg = "+host_workshop_collection 2040200286"
 
-$batFile = "@echo off
-cls
-echo Protecting srcds from crashes...
-echo If you want to close srcds and this script, close the srcds window and type Y depending on your language followed by Enter.
-title srcds.com Watchdog
-:srcds
-echo (%time%) srcds started.
-start /wait srcds.exe -console -game garrysmod $gamenameArg +map gm_construct +maxplayers 16 +r_hunkalloclightmaps 0
-echo (%time%) WARNING: srcds closed or crashed, restarting.
-goto srcds";
 # start /wait srcds.exe -console -game garrysmod $gamenameArg $workshopGameArg
 # 
 Add-Type -AssemblyName System.IO.Compression.FileSystem
@@ -150,12 +140,7 @@ if (!(Test-Path $srcdsdir)) {
 $args = "+login anonymous +app_update 4020 validate +quit"
 Start-Process -NoNewWindow -Wait -FilePath $steamexe -ArgumentList $args 
 
-
+$map = Get-ChildItem $gmodDir\garrysmod\maps -Filter *.bsp -Recurse | Get-Random
 $serverConfig | Out-File $gmodDir\garrysmod\cfg\server.cfg -Encoding "ASCII"
-$batFile | Out-File $gmodDir\StartGModDS.bat -Encoding "ASCII"
-# $args = "-console +sv_setsteamaccount B69B3D3AAC2A179EA41E576C476BF8C4 -authkey B69B3D3AAC2A179EA41E576C476BF8C4 $workshopGameArg -game garrysmod $gamenameArg $networkArg +exec server.cfg +clientport 27006"
-# Start-Process -NoNewWindow -Wait -FilePath $gmod -ArgumentList $args
-# modify the server
-# c:\buildslave\steam_rel_client_win32\build\src\clientdll\appdatacache.cpp (1469) : Assertion Failed: GSteamEngine().IsEngineThreadRunning()
-Set-Location -Path $gmodDir
-Start-Process "cmd.exe" "/c $gmodDir\StartGModDS.bat"
+$args = "-console $workshopGameArg -game garrysmod $gamenameArg $networkArg +exec server.cfg +map $map"
+Start-Process -NoNewWindow -Wait -FilePath $gmod -ArgumentList $args
