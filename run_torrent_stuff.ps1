@@ -1,4 +1,4 @@
-﻿& 'C:\Program Files\Private Internet Access\piactl.exe' connect
-& 'C:\Users\matt\Desktop\SickBeard-win32-alpha-build503\SickBeard.exe'
-& 'C:\Users\matt\AppData\Roaming\CouchPotato\application\CouchPotato.exe'
-& 'C:\Users\matt\AppData\Roaming\uTorrent\uTorrent.exe'
+﻿& "$env:ProgramW6432\Private Internet Access\piactl.exe" connect
+& "$env:userprofile\Desktop\SickBeard-win32-alpha-build503\SickBeard.exe"
+& "$env:APPDATA\CouchPotato\application\CouchPotato.exe"
+& "$env:APPDATA\uTorrent\uTorrent.exe"
