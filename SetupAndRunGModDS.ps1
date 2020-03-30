@@ -5,12 +5,13 @@ param(
   [Parameter()]
   [string]$serverName = "Tucker_Smells",
   [Parameter()]
-  [string]$map
+  [string]$map,
+  [Parameter()]
+  [string]$installLocation = "C:\sourceServer"
 )
 
-$srcdsdir = "C:\sourceServer"
-$steamexe = "$srcdsdir\steamcmd.exe"
-$gmodDir = "$srcdsdir\steamapps\common\GarrysModDS"
+$steamexe = "$installLocation\steamcmd.exe"
+$gmodDir = "$installLocation\steamapps\common\GarrysModDS"
 $gmod = "$gmodDir\srcds.exe"
 #raw server.cfg
 $serverConfig = '// Hostname for server.
@@ -127,7 +128,7 @@ function Unzip
 }
 
 
-if (!(Test-Path $srcdsdir)) {
+if (!(Test-Path $installLocation)) {
   wget "http://media.steampowered.com/installer/steamcmd.zip" -outfile $env:USERPROFILE\Downloads\steamcmd.zip
   Unzip $env:USERPROFILE\Downloads\steamcmd.zip C:\sourceServer
 }
@@ -142,8 +143,7 @@ if (!$map) {
 $serverConfig | Out-File $gmodDir\garrysmod\cfg\server.cfg -Encoding "ASCII"
 echo "resource.AddWorkshop("2040200286")" | Out-File $gmodDir\garrysmod\lua\autorun\server\workshop.lua -Encoding "ASCII"
 
-# +sv_setsteamaccount B69B3D3AAC2A179EA41E576C476BF8C4
-$args = "-console -authkey B69B3D3AAC2A179EA41E576C476BF8C4 $workshopGameArg -game garrysmod $gamenameArg $networkArg +exec server.cfg +map $map +sv_setsteamaccount B69B3D3AAC2A179EA41E576C476BF8C4"
+$args = "-console -authkey B69B3D3AAC2A179EA41E576C476BF8C4 $workshopGameArg -game garrysmod $gamenameArg $networkArg +exec server.cfg +map $map"
 Start-Process -NoNewWindow -FilePath $gmod -ArgumentList $args
 echo "------------------------------------------------------------------------------------------------"
 echo "| changelevel *map_name* | changes the map                                                   |"
