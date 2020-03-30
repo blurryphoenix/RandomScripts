@@ -152,4 +152,5 @@ echo "| quit                                      | exits (shut down the server)
 echo "----------------------in game dev console commands (~)-----------------------------------------------------------"
 echo "| rcon_password tH3_pw                      | drop into 'admin' mode                                            |"
 echo "| rcon changelevel *map_name* (ph, tt, etc) | changes the level of the server                                   |"
+echo "| also helpful link for commands https://steamcommunity.com/sharedfiles/filedetails/?id=170589737               |"
 echo "-----------------------------------------------------------------------------------------------------------------"
