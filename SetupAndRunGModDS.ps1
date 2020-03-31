@@ -1,7 +1,7 @@
 param(
   [Parameter()]
-  [ValidateSet('prop_hunt','murder','ttt','trouble in terrorist town','sandbox')]
   [string]$game,
+  # 'murder','ttt','trouble in terrorist town','sandbox','objhunt'
   [Parameter()]
   [string]$serverName = "Tucker_Smells",
   [Parameter()]
@@ -9,7 +9,6 @@ param(
   [Parameter()]
   [string]$installLocation = "C:\sourceServer"
 )
-
 $serverName = $serverName.trim()
 $serverName = $serverName.replace(' ', '_')
 $steamexe = "$installLocation\steamcmd.exe"
