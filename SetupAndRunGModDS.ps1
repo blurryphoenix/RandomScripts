@@ -55,28 +55,32 @@ $workshopGameArg = "+host_workshop_collection 2040200286"
 
 CheckOrInstallSteam -installLocation $installLocation;
 SetupServerConfig -gmodDir $gmodDir;
-$maps = SetupMapRotation -gmodDir $gmodDir -gameMode $gameMode;
+$mapsList = SetupMapRotation -gmodDir $gmodDir -gameMode $gameMode;
 
 # 4020 is gmod
 $args = "+login anonymous +app_update 4020 validate +quit"
 Start-Process -NoNewWindow -Wait -FilePath $steamExe -ArgumentList $args
 
 if (!$map) {
-  $map = $maps | Get-Random
-  echo "hello world $map"
+  $map = $mapsList -Split '\r?\n' | Get-Random
 }
-echo "resource.AddWorkshop("2040200286")" | Out-File $gmodDir\garrysmod\lua\autorun\server\workshop.lua -Encoding "ASCII"
+Write-Output "resource.AddWorkshop("2040200286")" | Out-File $gmodDir\garrysmod\lua\autorun\server\workshop.lua -Encoding "ASCII"
 
 $args = "-console +hostname $serverName -authkey B69B3D3AAC2A179EA41E576C476BF8C4 $workshopGameArg -game garrysmod $gamenameArg $networkArg +exec server.cfg +map $map"
 Start-Process -NoNewWindow -FilePath $gmodExe -ArgumentList $args
-echo "----------------------srcds.exe commands (the other window)---------------------------------------------------------"
-echo "| changelevel *map_name*                       | changes the map                                                   |"
-echo "| status                                       | gives information about the running server (including ip address) |"
-echo "| quit                                         | exits (shut down the server)                                      |"
-echo "----------------------in game dev console commands (~)--------------------------------------------------------------"
-echo "| rcon_password tH3_pw                         | drop into 'admin' mode                                            |"
-echo "| rcon changelevel *map_name* (ph, tt, etc)    | changes the level of the server                                   |"
-echo "| rcon gamemode *mode* (terrortown, prop_hunt) | changes the game mode                                             |"
-echo "| you can test these commands as 'changelevel' to find the map and then use 'rcon' to change ther server map       |"
-echo "| also helpful link for commands https://steamcommunity.com/sharedfiles/filedetails/?id=170589737                  |"
-echo "--------------------------------------------------------------------------------------------------------------------"
+Write-Host -ForegroundColor Red    "--------------------------------srcds.exe commands (the other window)-----------------------------------------------"
+Write-Host -ForegroundColor Yellow "| gamemode *mode*                              | changes game mode                                                 |"
+Write-Host -ForegroundColor Yellow "| changelevel *map_name*                       | changes the map                                                   |"
+Write-Host -ForegroundColor Yellow "| status                                       | gives information about the running server (including ip address) |"
+Write-Host -ForegroundColor Yellow "| quit                                         | exits (shut down the server)                                      |"
+Write-Host -ForegroundColor Red    "--------------------------------in game dev console commands (~)----------------------------------------------------"
+Write-Host -ForegroundColor Green  "| rcon_password tH3_pw                         | drop into 'admin' mode                                            |"
+Write-Host -ForegroundColor Green  "| rcon changelevel *map_name* (ph, tt, etc)    | changes the level of the server                                   |"
+Write-Host -ForegroundColor Green  "| rcon gamemode *mode* (terrortown, prop_hunt) | changes the game mode                                             |"
+Write-Host -ForegroundColor Red    "--------------------------------------------------------------------------------------------------------------------"
+Write-Host -ForegroundColor Green  "| you can test these commands as 'changelevel' to find the map and then use 'rcon' to change ther server map       |"
+Write-Host -ForegroundColor Green  "| also helpful link for commands https://steamcommunity.com/sharedfiles/filedetails/?id=170589737                  |"
+Write-Host -ForegroundColor Red    "--------------------------------------------------------------------------------------------------------------------"
+$csvMapList = $mapsList -Split '\r?\n' -Join ', '
+Write-Host -ForegroundColor Green "The map list for the gametype you selected: " -NoNewline
+Write-Host -ForegroundColor Magenta $csvMapList

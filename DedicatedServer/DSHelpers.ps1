@@ -20,7 +20,6 @@ Function SetupMapRotation {
     [string]$gameMode
   )
   #between fountain and arena  is supposed to be "Awesome Building - Prop Hunt"
-  echo $gameMode
   if ($gameMode -eq 'prop_hunt') {
     $maps = "ph_restaurant
 ph_nightofthelivingdead
@@ -79,7 +78,7 @@ ttt_oldruins
 ttt_moonbase_redux";
   }
   $maps | Set-Content $gmodDir\garrysmod\cfg\mapcycle.txt;
-  return $maps -Split '\r?\n';
+  return $maps;
 }
 
 Function SetupServerConfig {
