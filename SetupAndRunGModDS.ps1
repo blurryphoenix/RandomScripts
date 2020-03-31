@@ -51,8 +51,6 @@ $steamExe = "$installLocation\steamcmd.exe"
 $gmodDir = "$installLocation\steamapps\common\GarrysModDS"
 $gmodExe = "$gmodDir\srcds.exe"
 
-$workshopGameArg = "+host_workshop_collection 2040200286"
-
 CheckOrInstallSteamCmd -installLocation $installLocation;
 CloneObjHuntRepo -installLocation $gmodDir -forceUpdate $forceUpdate;
 SetupServerConfig -gmodDir $gmodDir;
@@ -68,7 +66,8 @@ if (!$map) {
 Write-Output "resource.AddWorkshop("2040200286")" | Out-File $gmodDir\garrysmod\lua\autorun\server\workshop.lua -Encoding "ASCII"
 
 # +sv_setsteamaccount B69B3D3AAC2A179EA41E576C476BF8C4
-$args = "-console +hostname $serverName -authkey B69B3D3AAC2A179EA41E576C476BF8C4 $workshopGameArg -game garrysmod $gamenameArg $networkArg +exec server.cfg +map $map"
+$workshopGameArg = "+host_workshop_collection 2040200286"
+$args = "-console +hostname $serverName -authkey B69B3D3AAC2A179EA41E576C476BF8C4 $workshopGameArg -game garrysmod $gamenameArg +exec server.cfg +map $map"
 Start-Process -NoNewWindow -FilePath $gmodExe -ArgumentList $args
 Write-Host -ForegroundColor Red    "--------------------------------srcds.exe commands (the other window)-----------------------------------------------"
 Write-Host -ForegroundColor Yellow "| gamemode *mode*                              | changes game mode                                                 |"

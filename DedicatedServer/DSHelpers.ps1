@@ -30,8 +30,8 @@ Function CloneObjHuntRepo {
     git clone https://github.com/Newbrict/ObjHunt.git $env:USERPROFILE\Downloads\objhunt
     Remove-Item -Path $installLocation\garrysmod\gamemodes\prop_hunt -Recurse -Force
     Move-Item -Force $env:USERPROFILE\Downloads\objhunt\* $installLocation\garrysmod\gamemodes\prop_hunt
+    Remove-Item -Path $env:USERPROFILE\Downloads\objhunt -Recurse -Force
   }
-  Remove-Item -Path $env:USERPROFILE\Downloads\objhunt -Recurse -Force
 }
 
 
