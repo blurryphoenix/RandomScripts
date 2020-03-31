@@ -143,7 +143,7 @@ if (!$map) {
 $serverConfig | Out-File $gmodDir\garrysmod\cfg\server.cfg -Encoding "ASCII"
 echo "resource.AddWorkshop("2040200286")" | Out-File $gmodDir\garrysmod\lua\autorun\server\workshop.lua -Encoding "ASCII"
 
-$args = "-console -authkey B69B3D3AAC2A179EA41E576C476BF8C4 $workshopGameArg -game garrysmod $gamenameArg $networkArg +exec server.cfg +map $map"
+$args = "-console +hostname $serverName -authkey B69B3D3AAC2A179EA41E576C476BF8C4 $workshopGameArg -game garrysmod $gamenameArg $networkArg +exec server.cfg +map $map"
 Start-Process -NoNewWindow -FilePath $gmod -ArgumentList $args
 echo "----------------------srcds.exe commands (the other window)---------------------------------------------------------"
 echo "| changelevel *map_name*                       | changes the map                                                   |"
