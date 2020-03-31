@@ -1,16 +1,35 @@
-Function CheckOrInstallSteam {
+Function CheckOrInstallSteamCmd {
   param(
+    [Parameter()]
     [string] $installLocation
   )
   
   # start /wait srcds.exe -console -game garrysmod $gamenameArg $workshopGameArg
   # 
   Add-Type -AssemblyName System.IO.Compression.FileSystem
-  if (!(Test-Path $installLocation)) {
+  if (!(Test-Path $installLocation\steamcmd.exe)) {
     Invoke-WebRequest "http://media.steampowered.com/installer/steamcmd.zip" -outfile $env:USERPROFILE\Downloads\steamcmd.zip
     [System.IO.Compression.ZipFile]::ExtractToDirectory("$env:USERPROFILE\Downloads\steamcmd.zip", $installLocation);
   }
 }
+
+Function CloneObjHuntRepo {
+  param(
+    [Parameter()]
+    [string] $installLocation
+  )
+
+  if (!(Test-Path $installLocation\garrysmod\gamemodes\prop_hunt\prop_hunt.txt)) {
+    New-Item -Path $installLocation\garrysmod\gamemodes\prop_hunt -Name "prop_hunt.txt" -ItemType "file" -Value "empty"
+  }
+  $firstLineOfPropHunt = Get-Content $installLocation\garrysmod\gamemodes\prop_hunt\prop_hunt.txt -First 1
+  if ($firstLineOfPropHunt -notmatch "objhunt") {
+    $args = "clone https://github.com/Newbrict/ObjHunt.git $installLocation\garrysmod\gamemodes\prop_hunt"
+    git clone https://github.com/Newbrict/ObjHunt.git $env:USERPROFILE\Downloads\objhunt
+    Move-Item -Force $env:USERPROFILE\Downloads\objhunt\* $installLocation\garrysmod\gamemodes\prop_hunt
+  }
+}
+
 
 Function SetupMapRotation {
   param(

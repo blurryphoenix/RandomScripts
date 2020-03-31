@@ -53,7 +53,8 @@ $gmodExe = "$gmodDir\srcds.exe"
 $networkArg = if (!$localNetworkCardIp) { "" } else { "-ip $localNetworkCardIp" }
 $workshopGameArg = "+host_workshop_collection 2040200286"
 
-CheckOrInstallSteam -installLocation $installLocation;
+CheckOrInstallSteamCmd -installLocation $installLocation;
+CloneObjHuntRepo -installLocation $gmodDir;
 SetupServerConfig -gmodDir $gmodDir;
 $mapsList = SetupMapRotation -gmodDir $gmodDir -gameMode $gameMode;
 
