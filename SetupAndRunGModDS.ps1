@@ -7,7 +7,9 @@ param(
   [Parameter()]
   [string]$map,
   [Parameter()]
-  [string]$installLocation
+  [string]$installLocation,
+  [Parameter()]
+  [boolean] $forceUpdate
 )
 . ".\DedicatedServer\DSHelpers.ps1"
 
@@ -49,12 +51,10 @@ $steamExe = "$installLocation\steamcmd.exe"
 $gmodDir = "$installLocation\steamapps\common\GarrysModDS"
 $gmodExe = "$gmodDir\srcds.exe"
 
-
-$networkArg = if (!$localNetworkCardIp) { "" } else { "-ip $localNetworkCardIp" }
 $workshopGameArg = "+host_workshop_collection 2040200286"
 
 CheckOrInstallSteamCmd -installLocation $installLocation;
-CloneObjHuntRepo -installLocation $gmodDir;
+CloneObjHuntRepo -installLocation $gmodDir -forceUpdate $forceUpdate;
 SetupServerConfig -gmodDir $gmodDir;
 $mapsList = SetupMapRotation -gmodDir $gmodDir -gameMode $gameMode;
 
@@ -67,6 +67,7 @@ if (!$map) {
 }
 Write-Output "resource.AddWorkshop("2040200286")" | Out-File $gmodDir\garrysmod\lua\autorun\server\workshop.lua -Encoding "ASCII"
 
+# +sv_setsteamaccount B69B3D3AAC2A179EA41E576C476BF8C4
 $args = "-console +hostname $serverName -authkey B69B3D3AAC2A179EA41E576C476BF8C4 $workshopGameArg -game garrysmod $gamenameArg $networkArg +exec server.cfg +map $map"
 Start-Process -NoNewWindow -FilePath $gmodExe -ArgumentList $args
 Write-Host -ForegroundColor Red    "--------------------------------srcds.exe commands (the other window)-----------------------------------------------"

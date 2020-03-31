@@ -10,24 +10,28 @@ Function CheckOrInstallSteamCmd {
   if (!(Test-Path $installLocation\steamcmd.exe)) {
     Invoke-WebRequest "http://media.steampowered.com/installer/steamcmd.zip" -outfile $env:USERPROFILE\Downloads\steamcmd.zip
     [System.IO.Compression.ZipFile]::ExtractToDirectory("$env:USERPROFILE\Downloads\steamcmd.zip", $installLocation);
+    Remove-Item -Path $env:USERPROFILE\Downloads\steamcmd.zip -Recurse -Force
   }
 }
 
 Function CloneObjHuntRepo {
   param(
     [Parameter()]
-    [string] $installLocation
+    [string] $installLocation,
+    [Parameter()]
+    [boolean] $forceUpdate
   )
 
   if (!(Test-Path $installLocation\garrysmod\gamemodes\prop_hunt\prop_hunt.txt)) {
     New-Item -Path $installLocation\garrysmod\gamemodes\prop_hunt -Name "prop_hunt.txt" -ItemType "file" -Value "empty"
   }
   $firstLineOfPropHunt = Get-Content $installLocation\garrysmod\gamemodes\prop_hunt\prop_hunt.txt -First 1
-  if ($firstLineOfPropHunt -notmatch "objhunt") {
-    $args = "clone https://github.com/Newbrict/ObjHunt.git $installLocation\garrysmod\gamemodes\prop_hunt"
+  if ($firstLineOfPropHunt -notmatch "objhunt" -or $forceUpdate) {
     git clone https://github.com/Newbrict/ObjHunt.git $env:USERPROFILE\Downloads\objhunt
+    Remove-Item -Path $installLocation\garrysmod\gamemodes\prop_hunt -Recurse -Force
     Move-Item -Force $env:USERPROFILE\Downloads\objhunt\* $installLocation\garrysmod\gamemodes\prop_hunt
   }
+  Remove-Item -Path $env:USERPROFILE\Downloads\objhunt -Recurse -Force
 }
 
 
@@ -55,14 +59,12 @@ ph_saltfactory
 ph_cliffyard
 ph_motelblacke_redux
 ph_apartment_v2
-ph_libraryfactory
 ph_spieje
 ph_house_v3
 ph_mansion_v1
 ph_diordna_hotel_2
 ph_houseplace
 ph_gas_stationrc7_xmas
-ph_moonbase_redux
 ph_grand_hotel_night";
   } elseif ($gameMode -eq 'terrortown') {
     $maps = "ttt_nuclear_power_b2
@@ -93,8 +95,7 @@ ttt_vessel
 ttt_terrortown
 ttt_casino_b2
 ttt_cluedo_b5_improved1
-ttt_oldruins
-ttt_moonbase_redux";
+ttt_oldruins";
   }
   $maps | Set-Content $gmodDir\garrysmod\cfg\mapcycle.txt;
   return $maps;
