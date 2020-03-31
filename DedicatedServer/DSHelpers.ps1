@@ -58,7 +58,6 @@ ph_arena
 ph_chinese
 ph_bank
 ph_saltfactory
-ph_cliffyard
 ph_motelblacke_redux
 ph_apartment_v2
 ph_spieje
