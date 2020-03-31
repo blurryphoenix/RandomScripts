@@ -19,28 +19,15 @@ if (!$installLocation) {
 if (!$serverName) {
   $serverName = "Tucker_Smells";
 }
-switch($game) {
-  "$_ -eq murder" {
+
+if ($game -eq "murder") {
     $gameMode = "murder";
-    break;
-  }
-  "$_ -eq ttt" { continue; }
-  "$_ -eq tt" { continue; }
-  "$_ -eq trouble in terrorist town" {
+} elseif ($game -eq "ttt" -or $game -eq "tt" -or $game -eq "trouble in terrorist town" -or $game -eq "terrortown") {
     $gameMode = "terrortown";
-    break;
-  }
-  "$_ -eq prop_hunt" { continue; }
-  "$_ -eq obj_hunt" { continue; }
-  "$_ -eq prophunt" { continue; }
-  "$_ -eq objhunt" {
+} elseif ($game -eq "prop_hunt" -or $game -eq "obj_hunt" -or $game -eq "prophunt" -or $game -eq "objhunt") {
     $gameMode = "prop_hunt";
-    break;
-  }
-  default { 
-    $gameMode = "prop_hunt";
-    break;
-  }
+} else {
+  $gameMode = "prop_hunt";
 }
 $gamenameArg = "+gamemode $gameMode"
 

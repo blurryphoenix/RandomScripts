@@ -48,7 +48,6 @@ Function SetupMapRotation {
   #between fountain and arena  is supposed to be "Awesome Building - Prop Hunt"
   if ($gameMode -eq 'prop_hunt') {
     $maps = "ph_restaurant
-ph_nightofthelivingdead
 ph_office
 ph_fancyhouse
 ph_parkinglot
