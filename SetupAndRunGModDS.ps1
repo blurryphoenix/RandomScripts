@@ -20,7 +20,7 @@ $serverConfig = '// Hostname for server.
 rcon_password "mutmatt_r0x!"
 
 // Server password - for private servers.
-sv_password ""
+sv_password "derp"
 
 // Server Logging
 log on
