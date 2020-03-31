@@ -53,7 +53,6 @@ ph_office
 ph_fancyhouse
 ph_parkinglot
 ph_starship
-ph_funeral_home
 ph_fountain
 ph_arena
 ph_chinese

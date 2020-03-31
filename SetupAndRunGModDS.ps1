@@ -83,5 +83,5 @@ Write-Host -ForegroundColor Green  "| you can test these commands as 'changeleve
 Write-Host -ForegroundColor Green  "| also helpful link for commands https://steamcommunity.com/sharedfiles/filedetails/?id=170589737                  |"
 Write-Host -ForegroundColor Red    "--------------------------------------------------------------------------------------------------------------------"
 $csvMapList = $mapsList -Split '\r?\n' -Join ', '
-Write-Host -ForegroundColor Green "The map list for $game : " -NoNewline
+Write-Host -ForegroundColor Green "The map list for $game($map) : " -NoNewline
 Write-Host -ForegroundColor Magenta $csvMapList
