@@ -111,7 +111,7 @@ Function SetupServerConfig {
 rcon_password "mutmatt_r0x!"
 
 // Server password - for private servers.
-sv_password "derp"
+sv_password "tempfriends"
 
 // Server Logging
 log on
