@@ -22,6 +22,9 @@ Function CloneObjHuntRepo {
     [boolean] $forceUpdate
   )
 
+  if (!(Test-Path $installLocation\garrysmod\gamemodes\prop_hunt)) {
+    New-Item -Path $installLocation\garrysmod\gamemodes\prop_hunt -ItemType "directory"
+  }
   if (!(Test-Path $installLocation\garrysmod\gamemodes\prop_hunt\prop_hunt.txt)) {
     New-Item -Path $installLocation\garrysmod\gamemodes\prop_hunt -Name "prop_hunt.txt" -ItemType "file" -Value "empty"
   }
