@@ -17,7 +17,7 @@ if (!$installLocation) {
   $installLocation = "C:\sourceServer";
 }
 if (!$serverName) {
-  $serverName = "Tucker_Smells";
+  $serverName = "BlurryPhoenix Funsies";
 }
 switch($game) {
   "$_ -eq murder" {
@@ -38,7 +38,7 @@ switch($game) {
     break;
   }
   default { 
-    $gameMode = "prop_hunt";
+    $gameMode = "sandbox";
     break;
   }
 }
@@ -63,10 +63,10 @@ Start-Process -NoNewWindow -Wait -FilePath $steamExe -ArgumentList $args
 if (!$map) {
   $map = $mapsList -Split '\r?\n' | Get-Random
 }
-Write-Output "resource.AddWorkshop("2040200286")" | Out-File $gmodDir\garrysmod\lua\autorun\server\workshop.lua -Encoding "ASCII"
+Write-Output "resource.AddWorkshop("2043077893")" | Out-File $gmodDir\garrysmod\lua\autorun\server\workshop.lua -Encoding "ASCII"
 
 # +sv_setsteamaccount B69B3D3AAC2A179EA41E576C476BF8C4
-$workshopGameArg = "+host_workshop_collection 2040200286"
+$workshopGameArg = "+host_workshop_collection 2043077893"
 $args = "-console +hostname $serverName -authkey B69B3D3AAC2A179EA41E576C476BF8C4 $workshopGameArg -game garrysmod $gamenameArg +exec server.cfg +map $map"
 Start-Process -NoNewWindow -FilePath $gmodExe -ArgumentList $args
 Write-Host -ForegroundColor Red    "--------------------------------srcds.exe commands (the other window)-----------------------------------------------"
