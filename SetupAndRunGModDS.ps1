@@ -17,7 +17,7 @@ if (!$installLocation) {
   $installLocation = "C:\sourceServer";
 }
 if (!$serverName) {
-  $serverName = "BlurryPhoenix Funsies";
+  $serverName = "Tucker_Smells";
 }
 
 if ($game -eq "murder") {
@@ -27,7 +27,7 @@ if ($game -eq "murder") {
 } elseif ($game -eq "prop_hunt" -or $game -eq "obj_hunt" -or $game -eq "prophunt" -or $game -eq "objhunt") {
     $gameMode = "prop_hunt";
 } else {
-  $gameMode = "sandbox";
+  $gameMode = "prop_hunt";
 }
 $gamenameArg = "+gamemode $gameMode"
 
@@ -50,10 +50,10 @@ Start-Process -NoNewWindow -Wait -FilePath $steamExe -ArgumentList $args
 if (!$map) {
   $map = $mapsList -Split '\r?\n' | Get-Random
 }
-Write-Output "resource.AddWorkshop("2043077893")" | Out-File $gmodDir\garrysmod\lua\autorun\server\workshop.lua -Encoding "ASCII"
+Write-Output "resource.AddWorkshop("2040200286")" | Out-File $gmodDir\garrysmod\lua\autorun\server\workshop.lua -Encoding "ASCII"
 
 # +sv_setsteamaccount B69B3D3AAC2A179EA41E576C476BF8C4
-$workshopGameArg = "+host_workshop_collection 2043077893"
+$workshopGameArg = "+host_workshop_collection 2040200286"
 $args = "-console +hostname $serverName -authkey B69B3D3AAC2A179EA41E576C476BF8C4 $workshopGameArg -game garrysmod $gamenameArg +exec server.cfg +map $map"
 Start-Process -NoNewWindow -FilePath $gmodExe -ArgumentList $args
 Write-Host -ForegroundColor Red    "--------------------------------srcds.exe commands (the other window)------------------------------------------------"
@@ -68,7 +68,7 @@ Write-Host -ForegroundColor Green  "| rcon gamemode *mode* (terrortown, prop_hun
 Write-Host -ForegroundColor Red    "---------------------------------------------------------------------------------------------------------------------"
 Write-Host -ForegroundColor Green  "| you can test these commands as 'changelevel' to find the map and then use 'rcon' to change ther server map        |"
 Write-Host -ForegroundColor Green  "| also helpful link for commands https://steamcommunity.com/sharedfiles/filedetails/?id=170589737                   |"
-Write-Host -ForegroundColor Green  "| you should have HL2 CS:S TF2 and this subscribe https://steamcommunity.com/sharedfiles/filedetails/?id=2043077893 |"
+Write-Host -ForegroundColor Green  "| you should have HL2 CS:S TF2 and this subscribe https://steamcommunity.com/sharedfiles/filedetails/?id=2040200286 |"
 Write-Host -ForegroundColor Red    "--------------------------------------------------------------------------------------------------------------------"
 $csvMapList = $mapsList -Split '\r?\n' -Join ', '
 Write-Host -ForegroundColor Green "The map list for $game" -NoNewline 
