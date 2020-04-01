@@ -19,28 +19,15 @@ if (!$installLocation) {
 if (!$serverName) {
   $serverName = "BlurryPhoenix Funsies";
 }
-switch($game) {
-  "$_ -eq murder" {
+
+if ($game -eq "murder") {
     $gameMode = "murder";
-    break;
-  }
-  "$_ -eq ttt" { continue; }
-  "$_ -eq tt" { continue; }
-  "$_ -eq trouble in terrorist town" {
+} elseif ($game -eq "ttt" -or $game -eq "tt" -or $game -eq "trouble in terrorist town" -or $game -eq "terrortown") {
     $gameMode = "terrortown";
-    break;
-  }
-  "$_ -eq prop_hunt" { continue; }
-  "$_ -eq obj_hunt" { continue; }
-  "$_ -eq prophunt" { continue; }
-  "$_ -eq objhunt" {
+} elseif ($game -eq "prop_hunt" -or $game -eq "obj_hunt" -or $game -eq "prophunt" -or $game -eq "objhunt") {
     $gameMode = "prop_hunt";
-    break;
-  }
-  default { 
-    $gameMode = "sandbox";
-    break;
-  }
+} else {
+  $gameMode = "sandbox";
 }
 $gamenameArg = "+gamemode $gameMode"
 
@@ -69,19 +56,21 @@ Write-Output "resource.AddWorkshop("2043077893")" | Out-File $gmodDir\garrysmod\
 $workshopGameArg = "+host_workshop_collection 2043077893"
 $args = "-console +hostname $serverName -authkey B69B3D3AAC2A179EA41E576C476BF8C4 $workshopGameArg -game garrysmod $gamenameArg +exec server.cfg +map $map"
 Start-Process -NoNewWindow -FilePath $gmodExe -ArgumentList $args
-Write-Host -ForegroundColor Red    "--------------------------------srcds.exe commands (the other window)-----------------------------------------------"
-Write-Host -ForegroundColor Yellow "| gamemode *mode*                              | changes game mode                                                 |"
-Write-Host -ForegroundColor Yellow "| changelevel *map_name*                       | changes the map                                                   |"
-Write-Host -ForegroundColor Yellow "| status                                       | gives information about the running server (including ip address) |"
-Write-Host -ForegroundColor Yellow "| quit                                         | exits (shut down the server)                                      |"
-Write-Host -ForegroundColor Red    "--------------------------------in game dev console commands (~)----------------------------------------------------"
-Write-Host -ForegroundColor Green  "| rcon_password tH3_pw                         | drop into 'admin' mode                                            |"
-Write-Host -ForegroundColor Green  "| rcon changelevel *map_name* (ph, tt, etc)    | changes the level of the server                                   |"
-Write-Host -ForegroundColor Green  "| rcon gamemode *mode* (terrortown, prop_hunt) | changes the game mode                                             |"
-Write-Host -ForegroundColor Red    "--------------------------------------------------------------------------------------------------------------------"
-Write-Host -ForegroundColor Green  "| you can test these commands as 'changelevel' to find the map and then use 'rcon' to change ther server map       |"
-Write-Host -ForegroundColor Green  "| also helpful link for commands https://steamcommunity.com/sharedfiles/filedetails/?id=170589737                  |"
+Write-Host -ForegroundColor Red    "--------------------------------srcds.exe commands (the other window)------------------------------------------------"
+Write-Host -ForegroundColor Yellow "| gamemode *mode*                              | changes game mode                                                  |"
+Write-Host -ForegroundColor Yellow "| changelevel *map_name*                       | changes the map                                                    |"
+Write-Host -ForegroundColor Yellow "| status                                       | gives information about the running server (including ip address)  |"
+Write-Host -ForegroundColor Yellow "| quit                                         | exits (shut down the server)                                       |"
+Write-Host -ForegroundColor Red    "--------------------------------in game dev console commands (~)-----------------------------------------------------"
+Write-Host -ForegroundColor Green  "| rcon_password tH3_pw                         | drop into 'admin' mode                                             |"
+Write-Host -ForegroundColor Green  "| rcon changelevel *map_name* (ph, tt, etc)    | changes the level of the server                                    |"
+Write-Host -ForegroundColor Green  "| rcon gamemode *mode* (terrortown, prop_hunt) | changes the game mode                                              |"
+Write-Host -ForegroundColor Red    "---------------------------------------------------------------------------------------------------------------------"
+Write-Host -ForegroundColor Green  "| you can test these commands as 'changelevel' to find the map and then use 'rcon' to change ther server map        |"
+Write-Host -ForegroundColor Green  "| also helpful link for commands https://steamcommunity.com/sharedfiles/filedetails/?id=170589737                   |"
+Write-Host -ForegroundColor Green  "| you should have HL2 CS:S TF2 and this subscribe https://steamcommunity.com/sharedfiles/filedetails/?id=2043077893 |"
 Write-Host -ForegroundColor Red    "--------------------------------------------------------------------------------------------------------------------"
 $csvMapList = $mapsList -Split '\r?\n' -Join ', '
-Write-Host -ForegroundColor Green "The map list for $game : " -NoNewline
+Write-Host -ForegroundColor Green "The map list for $game" -NoNewline 
+Write-Host -ForegroundColor Red "($map) :" -NoNewline
 Write-Host -ForegroundColor Magenta $csvMapList
